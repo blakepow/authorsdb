@@ -9,4 +9,10 @@ var authorsController_1 = require("../controllers/authorsController");
 router.get("/", authorsController_1.getAllAuthors);
 router.get("/:id", authorsController_1.getAuthorById);
 router.post("/", authorsController_1.createAuthor);
+router.put("/:id", function (req, res) {
+    res.send("update author");
+});
+router.delete("/:id", function (req, res) {
+    res.send("delete author");
+});
 module.exports = router;
