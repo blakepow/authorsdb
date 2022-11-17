@@ -18,15 +18,17 @@ app.use(express.urlencoded({extended: false}))
 
 app.get('/favicon.ico', (req, res) => res.status(204))
 
+app.use('/api-docs', swaggerUi.serve);
+app.get('/api-docs', swaggerUi.setup(swaggerDocument));
+
 app.use('/', require('./routes/authorsRoutes'))
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// const outputFile = "./swagger_output.json";
-//
-// const endpointsFiles = ["./dist/routes/authorsRoutes.js"];
-//
-// swaggerAutogen(outputFile, endpointsFiles);
+const outputFile = "./swagger_output.json";
+
+const endpointsFiles = ["./routes/authorsRoutes.ts"];
+
+swaggerAutogen(outputFile, endpointsFiles);
 
 app.listen(port, () => {
     console.log(`Server listening at ${port}`);
