@@ -23,12 +23,11 @@ app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 app.use('/', require('./routes/authorsRoutes'))
 
-
-const outputFile = "./swagger_output.json";
-
-const endpointsFiles = ["./routes/authorsRoutes.ts"];
-
-swaggerAutogen(outputFile, endpointsFiles);
+// const outputFile = "./swagger_output.json";
+//
+// const endpointsFiles = ["./routes/authorsRoutes.ts"];
+//
+// swaggerAutogen(outputFile, endpointsFiles);
 
 app.listen(port, () => {
     console.log(`Server listening at ${port}`);

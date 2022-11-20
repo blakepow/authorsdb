@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createAuthor = exports.getAuthorById = exports.getAllAuthors = void 0;
+exports.deleteAuthor = exports.updateAuthor = exports.createAuthor = exports.getAuthorById = exports.getAllAuthors = void 0;
 var authorsModel_1 = __importDefault(require("../models/authorsModel"));
 var getAllAuthors = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var authors, error_1;
@@ -105,3 +105,49 @@ var createAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.createAuthor = createAuthor;
+var updateAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var contact, error_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, authorsModel_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true })];
+            case 1:
+                contact = _a.sent();
+                if (!contact) {
+                    res.status(404).json({ message: 'error updating author' });
+                }
+                res.status(200).json(contact);
+                return [3 /*break*/, 3];
+            case 2:
+                error_4 = _a.sent();
+                res.status(409).json({ message: 'error updating author' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.updateAuthor = updateAuthor;
+var deleteAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var author, error_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, authorsModel_1.default.findByIdAndDelete(req.params.id)];
+            case 1:
+                author = _a.sent();
+                if (!author) {
+                    res.status(404).json({ message: 'error deleting author' });
+                }
+                res.status(200).json({ message: 'author deleted' });
+                return [3 /*break*/, 3];
+            case 2:
+                error_5 = _a.sent();
+                res.status(409).json({ message: 'error deleting author' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.deleteAuthor = deleteAuthor;

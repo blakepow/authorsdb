@@ -2,19 +2,15 @@ import express from "express";
 
 const router = express.Router();
 
-import {createAuthor, getAllAuthors, getAuthorById} from "../controllers/authorsController";
+import {createAuthor, deleteAuthor, getAllAuthors, getAuthorById, updateAuthor} from "../controllers/authorsController";
 
 router.get("/", getAllAuthors);
 router.get("/:id", getAuthorById);
 
 router.post("/", createAuthor);
 
-router.put("/:id", (req, res) => {
-    res.send("update author");
-})
+router.put("/:id", updateAuthor);
 
-router.delete("/:id", (req, res) => {
-    res.send("delete author");
-})
+router.delete("/:id", deleteAuthor)
 
 module.exports = router;
