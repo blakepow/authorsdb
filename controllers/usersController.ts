@@ -18,7 +18,7 @@ export const loginUser = async (req: Request, res: Response) => {
     const user = await UserModel.findOne({ email })
 
     if (user && (await bcrypt.compare(password, user.password))) {
-        res.json({
+        return res.json({
             _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
@@ -26,8 +26,7 @@ export const loginUser = async (req: Request, res: Response) => {
             token: generateToken(user._id)
         })
     } else {
-        res.status(401)
-        throw new Error('Invalid email or password')
+        return res.status(401).json({ message: 'Invalid email or password' })
     }
 }
 
@@ -57,7 +56,7 @@ export const createUser = async (req: Request, res: Response) => {
         });
 
         if (user) {
-            res.status(201).json({
+            return res.status(201).json({
                 _id: user._id,
                 firstName: user.firstName,
                 lastName: user.lastName,
@@ -65,12 +64,12 @@ export const createUser = async (req: Request, res: Response) => {
                 token: generateToken(user._id)
             })
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 message: "Invalid user data"
             })
         }
     } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
             message: error
         });
     }
@@ -79,18 +78,18 @@ export const createUser = async (req: Request, res: Response) => {
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
         const users = await UserModel.find().select('-password');
-        res.status(200).json(users);
+        return res.status(200).json(users);
     } catch (e) {
-        res.status(500).json({ message: 'Error getting Users' });
+        return res.status(500).json({ message: 'Error getting Users' });
     }
 }
 
 export const getUserById = async (req: Request, res: Response) => {
     try {
         const user = await UserModel.findById(req.params.id).select('-password');
-        res.status(200).json(user);
+        return res.status(200).json(user);
     } catch (e) {
-        res.status(500).json({ message: 'Error getting User' });
+        return res.status(500).json({ message: 'Error getting User' });
     }
 }
 
@@ -104,12 +103,12 @@ export const updateUser = async (req: Request, res: Response) => {
         )
 
         if (!user) {
-            res.status(400).json({message: 'User not found'})
+            return res.status(400).json({message: 'User not found'})
         }
 
-        res.status(200).json(user);
+        return res.status(200).json(user);
     } catch (e) {
-        res.status(500).json({ message: 'Error updating User' });
+        return res.status(500).json({ message: 'Error updating User' });
     }
 }
 
@@ -118,13 +117,13 @@ export const deleteUser = async (req: Request, res: Response) => {
         const user = await UserModel.findById(req.params.id)
 
         if (!user) {
-            res.status(400).json({message: 'User not found'})
+            return res.status(400).json({message: 'User not found'})
         }
 
-        res.status(200).json({message: `Deleted ${req.params.id}`})
+        return res.status(200).json({message: `Deleted ${req.params.id}`})
 
     } catch (e) {
-        res.status(500).json({message: 'Error deleting User'});
+        return res.status(500).json({message: 'Error deleting User'});
     }
 }
 

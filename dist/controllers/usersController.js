@@ -66,17 +66,16 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 _c.label = 3;
             case 3:
                 if (_b) {
-                    res.json({
-                        _id: user._id,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
-                        email: user.email,
-                        token: generateToken(user._id)
-                    });
+                    return [2 /*return*/, res.json({
+                            _id: user._id,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            email: user.email,
+                            token: generateToken(user._id)
+                        })];
                 }
                 else {
-                    res.status(401);
-                    throw new Error('Invalid email or password');
+                    return [2 /*return*/, res.status(401).json({ message: 'Invalid email or password' })];
                 }
                 return [2 /*return*/];
         }
@@ -116,26 +115,25 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 4:
                 user = _b.sent();
                 if (user) {
-                    res.status(201).json({
-                        _id: user._id,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
-                        email: user.email,
-                        token: generateToken(user._id)
-                    });
+                    return [2 /*return*/, res.status(201).json({
+                            _id: user._id,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            email: user.email,
+                            token: generateToken(user._id)
+                        })];
                 }
                 else {
-                    res.status(400).json({
-                        message: "Invalid user data"
-                    });
+                    return [2 /*return*/, res.status(400).json({
+                            message: "Invalid user data"
+                        })];
                 }
                 return [3 /*break*/, 6];
             case 5:
                 error_1 = _b.sent();
-                res.status(400).json({
-                    message: error_1
-                });
-                return [3 /*break*/, 6];
+                return [2 /*return*/, res.status(400).json({
+                        message: error_1
+                    })];
             case 6: return [2 /*return*/];
         }
     });
@@ -150,12 +148,10 @@ var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, usersModel_1.UserModel.find().select('-password')];
             case 1:
                 users = _a.sent();
-                res.status(200).json(users);
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.status(200).json(users)];
             case 2:
                 e_1 = _a.sent();
-                res.status(500).json({ message: 'Error getting Users' });
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.status(500).json({ message: 'Error getting Users' })];
             case 3: return [2 /*return*/];
         }
     });
@@ -170,12 +166,10 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, usersModel_1.UserModel.findById(req.params.id).select('-password')];
             case 1:
                 user = _a.sent();
-                res.status(200).json(user);
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.status(200).json(user)];
             case 2:
                 e_2 = _a.sent();
-                res.status(500).json({ message: 'Error getting User' });
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.status(500).json({ message: 'Error getting User' })];
             case 3: return [2 /*return*/];
         }
     });
@@ -191,14 +185,12 @@ var updateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 1:
                 user = _a.sent();
                 if (!user) {
-                    res.status(400).json({ message: 'User not found' });
+                    return [2 /*return*/, res.status(400).json({ message: 'User not found' })];
                 }
-                res.status(200).json(user);
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.status(200).json(user)];
             case 2:
                 e_3 = _a.sent();
-                res.status(500).json({ message: 'Error updating User' });
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.status(500).json({ message: 'Error updating User' })];
             case 3: return [2 /*return*/];
         }
     });
@@ -214,14 +206,12 @@ var deleteUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 1:
                 user = _a.sent();
                 if (!user) {
-                    res.status(400).json({ message: 'User not found' });
+                    return [2 /*return*/, res.status(400).json({ message: 'User not found' })];
                 }
-                res.status(200).json({ message: "Deleted ".concat(req.params.id) });
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.status(200).json({ message: "Deleted ".concat(req.params.id) })];
             case 2:
                 e_4 = _a.sent();
-                res.status(500).json({ message: 'Error deleting User' });
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.status(500).json({ message: 'Error deleting User' })];
             case 3: return [2 /*return*/];
         }
     });
