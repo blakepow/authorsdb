@@ -98,7 +98,7 @@ export const getUserById = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
     try {
         const user = await UserModel.findByIdAndUpdate(
-            {_id: req.params},
+            {_id: req.params.id},
             req.body,
             {new: true,}
         )

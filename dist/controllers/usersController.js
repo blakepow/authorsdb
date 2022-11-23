@@ -187,7 +187,7 @@ var updateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, usersModel_1.UserModel.findByIdAndUpdate({ _id: req.params }, req.body, { new: true, })];
+                return [4 /*yield*/, usersModel_1.UserModel.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true, })];
             case 1:
                 user = _a.sent();
                 if (!user) {

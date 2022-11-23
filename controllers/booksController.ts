@@ -40,7 +40,7 @@ export const createBook = async (req: Request, res: Response) => {
 export const updateBook = async (req: Request, res: Response) => {
     try {
         const book = await BookModel.findByIdAndUpdate(
-            {_id: req.params},
+            {_id: req.params.id},
             req.body,
             {new: true,}
         )
