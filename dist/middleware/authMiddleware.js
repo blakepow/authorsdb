@@ -65,7 +65,6 @@ exports.protect = (0, express_async_handler_1.default)(function (req, res, next)
                 return [3 /*break*/, 4];
             case 3:
                 error_1 = _b.sent();
-                console.log(error_1);
                 res.status(401);
                 throw new Error('Not authorized');
             case 4:
