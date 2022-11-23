@@ -39,8 +39,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUsers = exports.createUser = exports.loginUser = void 0;
-var usersModel_1 = __importDefault(require("../models/usersModel"));
+exports.getUserById = exports.getAllUsers = exports.createUser = exports.loginUser = void 0;
+var usersModel_1 = require("../models/usersModel");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 //& Generate JWT
@@ -55,7 +55,7 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
         switch (_c.label) {
             case 0:
                 _a = req.body, email = _a.email, password = _a.password;
-                return [4 /*yield*/, usersModel_1.default.findOne({ email: email })];
+                return [4 /*yield*/, usersModel_1.UserModel.findOne({ email: email })];
             case 1:
                 user = _c.sent();
                 _b = user;
@@ -68,9 +68,9 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 if (_b) {
                     res.json({
                         _id: user._id,
-                        name: user.name,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
                         email: user.email,
-                        isAdmin: user.admin,
                         token: generateToken(user._id)
                     });
                 }
@@ -84,13 +84,13 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 }); };
 exports.loginUser = loginUser;
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, email, displayName, password, userExists, user, salt, hashedPassword, newUser, e_1;
+    var _a, firstName, lastName, email, password, userExists, salt, hashedPassword, newUser, e_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 5, , 6]);
-                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, displayName = _a.displayName, password = _a.password;
-                return [4 /*yield*/, usersModel_1.default.findOne({
+                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password;
+                return [4 /*yield*/, usersModel_1.UserModel.findOne({
                         email: email
                     })];
             case 1:
@@ -99,33 +99,37 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                     res.status(400);
                     throw new Error("User already exists");
                 }
-                user = req.body;
                 return [4 /*yield*/, bcryptjs_1.default.genSalt(10)];
             case 2:
                 salt = _b.sent();
-                return [4 /*yield*/, bcryptjs_1.default.hash(user.password, salt)];
+                return [4 /*yield*/, bcryptjs_1.default.hash(password, salt)];
             case 3:
                 hashedPassword = _b.sent();
-                return [4 /*yield*/, usersModel_1.default.create({
+                return [4 /*yield*/, usersModel_1.UserModel.create({
                         firstName: firstName,
                         lastName: lastName,
                         email: email,
-                        displayName: displayName,
                         password: hashedPassword,
                     })];
             case 4:
                 newUser = _b.sent();
-                res.status(201).json({
-                    _id: newUser._id,
-                    firstName: newUser.firstName,
-                    lastName: newUser.lastName,
-                    email: newUser.email,
-                    displayName: newUser.displayName,
-                    token: generateToken(newUser._id)
-                });
+                if (newUser) {
+                    res.status(201).json({
+                        _id: newUser._id,
+                        firstName: newUser.firstName,
+                        lastName: newUser.lastName,
+                        email: newUser.email,
+                        token: generateToken(newUser._id)
+                    });
+                }
+                else {
+                    res.status(400);
+                    throw new Error("Invalid user data");
+                }
                 return [3 /*break*/, 6];
             case 5:
                 e_1 = _b.sent();
+                console.log(e_1);
                 res.status(500).json({ message: e_1 });
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
@@ -139,7 +143,7 @@ var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0,
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, usersModel_1.default.find().select('-password')];
+                return [4 /*yield*/, usersModel_1.UserModel.find().select('-password')];
             case 1:
                 users = _a.sent();
                 res.status(200).json(users);
@@ -153,3 +157,23 @@ var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.getAllUsers = getAllUsers;
+var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, usersModel_1.UserModel.findById(req.params.id).select('-password')];
+            case 1:
+                user = _a.sent();
+                res.status(200).json(user);
+                return [3 /*break*/, 3];
+            case 2:
+                e_3 = _a.sent();
+                res.status(500).json({ message: 'Error getting User' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getUserById = getUserById;

@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.protect = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var usersModel_1 = __importDefault(require("../models/usersModel"));
+var usersModel_1 = require("../models/usersModel");
 exports.protect = (0, express_async_handler_1.default)(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var token, decoded, _a, error_1;
     return __generator(this, function (_b) {
@@ -57,7 +57,7 @@ exports.protect = (0, express_async_handler_1.default)(function (req, res, next)
                 decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
                 // Get user from the token
                 _a = req;
-                return [4 /*yield*/, usersModel_1.default.findById(decoded.id).select('-password')];
+                return [4 /*yield*/, usersModel_1.UserModel.findById(decoded.id).select('-password')];
             case 2:
                 // Get user from the token
                 _a.user = _b.sent();

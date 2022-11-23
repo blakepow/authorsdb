@@ -33,7 +33,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { firstName, lastName, email, displayName, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
         const userExists = await UserModel.findOne({
             email
@@ -44,16 +44,13 @@ export const createUser = async (req: Request, res: Response) => {
             throw new Error("User already exists");
         }
 
-        const user = req.body;
-
         const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(user.password, salt)
+        const hashedPassword = await bcrypt.hash(password, salt)
 
         const newUser = await UserModel.create({
             firstName,
             lastName,
             email,
-            displayName,
             password: hashedPassword,
         })
 

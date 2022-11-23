@@ -35,19 +35,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAuthor = exports.updateAuthor = exports.createAuthor = exports.getAuthorById = exports.getAllAuthors = void 0;
-var authorsModel_1 = __importDefault(require("../models/authorsModel"));
+var authorsModel_1 = require("../models/authorsModel");
 var getAllAuthors = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var authors, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, authorsModel_1.default.find()];
+                return [4 /*yield*/, authorsModel_1.AuthorsModel.find()];
             case 1:
                 authors = _a.sent();
                 res.status(200).json(authors);
@@ -67,7 +64,7 @@ var getAuthorById = function (req, res) { return __awaiter(void 0, void 0, void 
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, authorsModel_1.default.findById(req.params.id)];
+                return [4 /*yield*/, authorsModel_1.AuthorsModel.findById(req.params.id)];
             case 1:
                 author = _a.sent();
                 res.status(200).json(author);
@@ -87,7 +84,7 @@ var createAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0
         switch (_a.label) {
             case 0:
                 author = req.body;
-                newAuthor = new authorsModel_1.default(author);
+                newAuthor = new authorsModel_1.AuthorsModel(author);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -111,7 +108,7 @@ var updateAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, authorsModel_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true })];
+                return [4 /*yield*/, authorsModel_1.AuthorsModel.findByIdAndUpdate(req.params.id, req.body, { new: true })];
             case 1:
                 contact = _a.sent();
                 if (!contact) {
@@ -134,7 +131,7 @@ var deleteAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, authorsModel_1.default.findByIdAndDelete(req.params.id)];
+                return [4 /*yield*/, authorsModel_1.AuthorsModel.findByIdAndDelete(req.params.id)];
             case 1:
                 author = _a.sent();
                 if (!author) {
