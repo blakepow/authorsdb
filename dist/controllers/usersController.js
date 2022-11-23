@@ -50,7 +50,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = exports.loginUser = void 0;
+exports.getAllUsers = exports.createUser = exports.loginUser = void 0;
 var usersModel_1 = __importDefault(require("../models/usersModel"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -139,3 +139,23 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
     });
 }); };
 exports.createUser = createUser;
+var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var users, e_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, usersModel_1.default.find().select('-password')];
+            case 1:
+                users = _a.sent();
+                res.status(200).json(users);
+                return [3 /*break*/, 3];
+            case 2:
+                e_2 = _a.sent();
+                res.status(500).json({ message: 'Error getting Users' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getAllUsers = getAllUsers;

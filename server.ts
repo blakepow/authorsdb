@@ -21,8 +21,8 @@ app.get('/favicon.ico', (req, res) => res.status(204))
 app.use('/api-docs', swaggerUi.serve);
 app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
-app.use('/', require('./routes/authorsRoutes'))
 app.use('/users', require('./routes/usersRoutes'))
+app.use('/authors', require('./routes/authorsRoutes'))
 
 // const outputFile = "./swagger_output.json";
 //

@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var usersController_1 = require("../controllers/usersController");
+var authMiddleware_1 = require("../middleware/authMiddleware");
 var router = (0, express_1.Router)();
+router.get('/', authMiddleware_1.protect, usersController_1.getAllUsers);
 router.post("/register", usersController_1.createUser);
 router.post("/login", usersController_1.loginUser);
 module.exports = router;

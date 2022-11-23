@@ -67,3 +67,12 @@ export const createUser = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error creating User' });
     }
 }
+
+export const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await UserModel.find().select('-password');
+        res.status(200).json(users);
+    } catch (e) {
+        res.status(500).json({ message: 'Error getting Users' });
+    }
+}
