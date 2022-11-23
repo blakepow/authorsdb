@@ -33,15 +33,16 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { firstName, lastName, email, password } = req.body;
+        const { firstName, lastName, email, password, displayName='' } = req.body;
 
         const userExists = await UserModel.findOne({
             email
         });
 
         if (userExists) {
-            res.status(400);
-            throw new Error("User already exists");
+            return res.status(400).json({
+                message: "User already exists"
+            });
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -50,6 +51,7 @@ export const createUser = async (req: Request, res: Response) => {
         const newUser = await UserModel.create({
             firstName,
             lastName,
+            displayName,
             email,
             password: hashedPassword,
         })
@@ -63,8 +65,9 @@ export const createUser = async (req: Request, res: Response) => {
                 token: generateToken(newUser._id)
             })
         } else {
-            res.status(400);
-            throw new Error("Invalid user data");
+            return res.status(400).json({
+                message: "Invalid user data"
+            });
         }
     } catch (e) {
         console.log(e)

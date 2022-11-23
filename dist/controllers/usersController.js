@@ -84,35 +84,37 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 }); };
 exports.loginUser = loginUser;
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, email, password, userExists, salt, hashedPassword, newUser, e_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, firstName, lastName, email, password, _b, displayName, userExists, salt, hashedPassword, newUser, e_1;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _b.trys.push([0, 5, , 6]);
-                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password;
+                _c.trys.push([0, 5, , 6]);
+                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password, _b = _a.displayName, displayName = _b === void 0 ? '' : _b;
                 return [4 /*yield*/, usersModel_1.UserModel.findOne({
                         email: email
                     })];
             case 1:
-                userExists = _b.sent();
+                userExists = _c.sent();
                 if (userExists) {
-                    res.status(400);
-                    throw new Error("User already exists");
+                    return [2 /*return*/, res.status(400).json({
+                            message: "User already exists"
+                        })];
                 }
                 return [4 /*yield*/, bcryptjs_1.default.genSalt(10)];
             case 2:
-                salt = _b.sent();
+                salt = _c.sent();
                 return [4 /*yield*/, bcryptjs_1.default.hash(password, salt)];
             case 3:
-                hashedPassword = _b.sent();
+                hashedPassword = _c.sent();
                 return [4 /*yield*/, usersModel_1.UserModel.create({
                         firstName: firstName,
                         lastName: lastName,
+                        displayName: displayName,
                         email: email,
                         password: hashedPassword,
                     })];
             case 4:
-                newUser = _b.sent();
+                newUser = _c.sent();
                 if (newUser) {
                     res.status(201).json({
                         _id: newUser._id,
@@ -123,12 +125,13 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                     });
                 }
                 else {
-                    res.status(400);
-                    throw new Error("Invalid user data");
+                    return [2 /*return*/, res.status(400).json({
+                            message: "Invalid user data"
+                        })];
                 }
                 return [3 /*break*/, 6];
             case 5:
-                e_1 = _b.sent();
+                e_1 = _c.sent();
                 console.log(e_1);
                 res.status(500).json({ message: e_1 });
                 return [3 /*break*/, 6];
