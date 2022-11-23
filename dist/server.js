@@ -17,11 +17,12 @@ app.get('/favicon.ico', function (req, res) { return res.status(204); });
 app.use('/api-docs', swagger_ui_express_1.default.serve);
 app.get('/api-docs', swagger_ui_express_1.default.setup(swaggerDocument));
 app.use('/', require('./routes/authorsRoutes'));
+app.use('/users', require('./routes/usersRoutes'));
 // const outputFile = "./swagger_output.json";
 //
 // const endpointsFiles = ["./routes/authorsRoutes.ts"];
 //
 // swaggerAutogen(outputFile, endpointsFiles);
 app.listen(port, function () {
-    console.log("Server listening at " + port);
+    console.log("Server listening at ".concat(port));
 });

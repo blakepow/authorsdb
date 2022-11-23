@@ -22,6 +22,7 @@ app.use('/api-docs', swaggerUi.serve);
 app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 app.use('/', require('./routes/authorsRoutes'))
+app.use('/users', require('./routes/usersRoutes'))
 
 // const outputFile = "./swagger_output.json";
 //

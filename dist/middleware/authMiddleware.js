@@ -39,27 +39,41 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = __importDefault(require("mongoose"));
-function connectDB() {
-    return __awaiter(this, void 0, void 0, function () {
-        var conn, error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, mongoose_1.default.connect(process.env.MONGO_URI)];
-                case 1:
-                    conn = _a.sent();
-                    console.log("MongoDB Connected: ".concat(conn.connection.host));
-                    return [3 /*break*/, 3];
-                case 2:
-                    error_1 = _a.sent();
-                    console.log(error_1);
-                    process.exit(1);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
+exports.protect = void 0;
+var express_async_handler_1 = __importDefault(require("express-async-handler"));
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var usersModel_1 = __importDefault(require("../models/usersModel"));
+exports.protect = (0, express_async_handler_1.default)(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var token, decoded, _a, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                if (!(req.headers.authorization && req.headers.authorization.startsWith('Bearer'))) return [3 /*break*/, 4];
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                // Get token from header
+                token = req.headers.authorization.split(' ')[1];
+                decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+                // Get user from the token
+                _a = req;
+                return [4 /*yield*/, usersModel_1.default.findById(decoded.id).select('-password')];
+            case 2:
+                // Get user from the token
+                _a.user = _b.sent();
+                next();
+                return [3 /*break*/, 4];
+            case 3:
+                error_1 = _b.sent();
+                console.log(error_1);
+                res.status(401);
+                throw new Error('Not authorized');
+            case 4:
+                if (!token) {
+                    res.status(401);
+                    throw new Error('Not authorized, no token');
+                }
+                return [2 /*return*/];
+        }
     });
-}
-exports.default = connectDB;
+}); });
