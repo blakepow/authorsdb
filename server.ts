@@ -21,6 +21,9 @@ app.get('/favicon.ico', (req, res) => res.status(204))
 app.use('/api-docs', swaggerUi.serve);
 app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
+app.use('/', (req, res) => {
+    res.send('Authors API');
+})
 app.use('/users', require('./routes/usersRoutes'))
 app.use('/authors', require('./routes/authorsRoutes'))
 

@@ -16,6 +16,9 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.get('/favicon.ico', function (req, res) { return res.status(204); });
 app.use('/api-docs', swagger_ui_express_1.default.serve);
 app.get('/api-docs', swagger_ui_express_1.default.setup(swaggerDocument));
+app.use('/', function (req, res) {
+    res.send('Authors API');
+});
 app.use('/users', require('./routes/usersRoutes'));
 app.use('/authors', require('./routes/authorsRoutes'));
 // const outputFile = "./swagger_output.json";
