@@ -132,7 +132,7 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [3 /*break*/, 6];
             case 5:
                 e_1 = _b.sent();
-                res.status(500).json({ message: 'Error creating User' });
+                res.status(500).json({ message: e_1 });
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
