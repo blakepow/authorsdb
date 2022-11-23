@@ -66,6 +66,7 @@ export const createUser = async (req: Request, res: Response) => {
             token: generateToken(newUser._id)
         });
     } catch (e) {
+        console.log(e)
         res.status(500).json({ message: e });
     }
 }
