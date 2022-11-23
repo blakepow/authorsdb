@@ -1,4 +1,4 @@
-import AuthorsModel from "../models/authorsModel";
+import {AuthorsModel} from "../models/authorsModel";
 import { Request, Response } from "express";
 
 export const getAllAuthors = async (req: Request, res: Response) => {
