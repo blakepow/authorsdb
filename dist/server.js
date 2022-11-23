@@ -18,12 +18,14 @@ app.use('/api-docs', swagger_ui_express_1.default.serve);
 app.get('/api-docs', swagger_ui_express_1.default.setup(swaggerDocument));
 app.use('/users', require('./routes/usersRoutes'));
 app.use('/authors', require('./routes/authorsRoutes'));
+app.use('/books', require('./routes/booksRoutes'));
+app.use('/reviews', require('./routes/reviewsRoutes'));
 app.use('/', function (req, res) {
     res.send('Authors API');
 });
 // const outputFile = "./swagger_output.json";
 //
-// const endpointsFiles = ["./routes/authorsRoutes.ts"];
+// const endpointsFiles = [".routes/authorsRoutes.ts", ".routes/booksRoutes.ts", ".routes/reviewsRoutes.ts", ".routes/usersRoutes.ts"];
 //
 // swaggerAutogen(outputFile, endpointsFiles);
 app.listen(port, function () {

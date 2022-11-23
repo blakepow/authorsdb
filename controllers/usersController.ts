@@ -33,7 +33,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { firstName, lastName, email, password, displayName='' } = req.body;
+        const { firstName, lastName, email, password, displayName } = req.body;
 
         const userExists = await UserModel.findOne({
             email
@@ -45,29 +45,29 @@ export const createUser = async (req: Request, res: Response) => {
             });
         }
 
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password, salt)
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUser = await UserModel.create({
+        const user = await UserModel.create({
             firstName,
             lastName,
-            displayName,
             email,
             password: hashedPassword,
-        })
+            displayName
+        });
 
-        if (newUser) {
+        if (user) {
             res.status(201).json({
-                _id: newUser._id,
-                firstName: newUser.firstName,
-                lastName: newUser.lastName,
-                email: newUser.email,
-                token: generateToken(newUser._id)
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                token: generateToken(user._id)
             })
         } else {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "Invalid user data"
-            });
+            })
         }
     } catch (error) {
         res.status(400).json({
@@ -93,3 +93,39 @@ export const getUserById = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error getting User' });
     }
 }
+
+
+export const updateUser = async (req: Request, res: Response) => {
+    try {
+        const user = await UserModel.findByIdAndUpdate(
+            {_id: req.params},
+            req.body,
+            {new: true,}
+        )
+
+        if (!user) {
+            res.status(400).json({message: 'User not found'})
+        }
+
+        res.status(200).json(user);
+    } catch (e) {
+        res.status(500).json({ message: 'Error updating User' });
+    }
+}
+
+export const deleteUser = async (req: Request, res: Response) => {
+    try {
+        const user = await UserModel.findById(req.params.id)
+
+        if (!user) {
+            res.status(400).json({message: 'User not found'})
+        }
+
+        res.status(200).json({message: `Deleted ${req.params.id}`})
+
+    } catch (e) {
+        res.status(500).json({message: 'Error deleting User'});
+    }
+}
+
+

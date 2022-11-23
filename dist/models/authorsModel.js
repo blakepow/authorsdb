@@ -15,7 +15,7 @@ var authorSchema = new mongoose_1.default.Schema({
         required: true,
     },
     books: {
-        type: [String],
+        type: [mongoose_1.default.Schema.Types.ObjectId],
     },
 });
 exports.AuthorsModel = mongoose_1.default.model("Author", authorSchema);

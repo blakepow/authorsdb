@@ -3,35 +3,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserModel = void 0;
+exports.BookModel = void 0;
 var mongoose_1 = __importDefault(require("mongoose"));
-var userSchema = new mongoose_1.default.Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
+var bookSchema = new mongoose_1.default.Schema({
+    title: {
         type: String,
         required: true,
     },
-    firstName: {
+    description: {
         type: String,
         required: true,
     },
-    lastName: {
-        type: String,
+    price: {
+        type: Number,
         required: true,
     },
-    displayName: {
-        type: String,
-        required: true,
-    },
-    favoriteBooks: {
-        type: [String],
-    },
-    favoriteAuthors: {
-        type: [String],
+    authorId: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'Author'
     },
     reviews: [
         {
@@ -40,4 +29,4 @@ var userSchema = new mongoose_1.default.Schema({
         }
     ],
 });
-exports.UserModel = mongoose_1.default.model("User", userSchema);
+exports.BookModel = mongoose_1.default.model('Book', bookSchema);

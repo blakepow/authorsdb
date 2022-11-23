@@ -10,7 +10,7 @@ const authorSchema = new mongoose.Schema({
         required: true,
     },
     books: {
-        type: [String],
+        type: [mongoose.Schema.Types.ObjectId],
     },
 })
 

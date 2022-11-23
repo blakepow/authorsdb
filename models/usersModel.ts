@@ -20,14 +20,20 @@ const userSchema = new mongoose.Schema({
     },
     displayName: {
         type: String,
-        default: "",
+        required: true,
     },
     favoriteBooks: {
         type: [String],
     },
     favoriteAuthors: {
         type: [String],
-    }
+    },
+    reviews: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ],
 })
 
 export const UserModel = mongoose.model("User", userSchema);

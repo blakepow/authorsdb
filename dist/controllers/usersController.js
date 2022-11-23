@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserById = exports.getAllUsers = exports.createUser = exports.loginUser = void 0;
+exports.deleteUser = exports.updateUser = exports.getUserById = exports.getAllUsers = exports.createUser = exports.loginUser = void 0;
 var usersModel_1 = require("../models/usersModel");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -84,17 +84,17 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 }); };
 exports.loginUser = loginUser;
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, email, password, _b, displayName, userExists, salt, hashedPassword, newUser, error_1;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var _a, firstName, lastName, email, password, displayName, userExists, salt, hashedPassword, user, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _c.trys.push([0, 5, , 6]);
-                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password, _b = _a.displayName, displayName = _b === void 0 ? '' : _b;
+                _b.trys.push([0, 5, , 6]);
+                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password, displayName = _a.displayName;
                 return [4 /*yield*/, usersModel_1.UserModel.findOne({
                         email: email
                     })];
             case 1:
-                userExists = _c.sent();
+                userExists = _b.sent();
                 if (userExists) {
                     return [2 /*return*/, res.status(400).json({
                             message: "User already exists"
@@ -102,36 +102,36 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 }
                 return [4 /*yield*/, bcryptjs_1.default.genSalt(10)];
             case 2:
-                salt = _c.sent();
+                salt = _b.sent();
                 return [4 /*yield*/, bcryptjs_1.default.hash(password, salt)];
             case 3:
-                hashedPassword = _c.sent();
+                hashedPassword = _b.sent();
                 return [4 /*yield*/, usersModel_1.UserModel.create({
                         firstName: firstName,
                         lastName: lastName,
-                        displayName: displayName,
                         email: email,
                         password: hashedPassword,
+                        displayName: displayName
                     })];
             case 4:
-                newUser = _c.sent();
-                if (newUser) {
+                user = _b.sent();
+                if (user) {
                     res.status(201).json({
-                        _id: newUser._id,
-                        firstName: newUser.firstName,
-                        lastName: newUser.lastName,
-                        email: newUser.email,
-                        token: generateToken(newUser._id)
+                        _id: user._id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        token: generateToken(user._id)
                     });
                 }
                 else {
-                    return [2 /*return*/, res.status(400).json({
-                            message: "Invalid user data"
-                        })];
+                    res.status(400).json({
+                        message: "Invalid user data"
+                    });
                 }
                 return [3 /*break*/, 6];
             case 5:
-                error_1 = _c.sent();
+                error_1 = _b.sent();
                 res.status(400).json({
                     message: error_1
                 });
@@ -181,3 +181,49 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.getUserById = getUserById;
+var updateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, usersModel_1.UserModel.findByIdAndUpdate({ _id: req.params }, req.body, { new: true, })];
+            case 1:
+                user = _a.sent();
+                if (!user) {
+                    res.status(400).json({ message: 'User not found' });
+                }
+                res.status(200).json(user);
+                return [3 /*break*/, 3];
+            case 2:
+                e_3 = _a.sent();
+                res.status(500).json({ message: 'Error updating User' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.updateUser = updateUser;
+var deleteUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, e_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, usersModel_1.UserModel.findById(req.params.id)];
+            case 1:
+                user = _a.sent();
+                if (!user) {
+                    res.status(400).json({ message: 'User not found' });
+                }
+                res.status(200).json({ message: "Deleted ".concat(req.params.id) });
+                return [3 /*break*/, 3];
+            case 2:
+                e_4 = _a.sent();
+                res.status(500).json({ message: 'Error deleting User' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.deleteUser = deleteUser;
