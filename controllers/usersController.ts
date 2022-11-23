@@ -57,14 +57,18 @@ export const createUser = async (req: Request, res: Response) => {
             password: hashedPassword,
         })
 
-        res.status(201).json({
-            _id: newUser._id,
-            firstName: newUser.firstName,
-            lastName: newUser.lastName,
-            email: newUser.email,
-            displayName: newUser.displayName,
-            token: generateToken(newUser._id)
-        });
+        if (newUser) {
+            res.status(201).json({
+                _id: newUser._id,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName,
+                email: newUser.email,
+                token: generateToken(newUser._id)
+            })
+        } else {
+            res.status(400);
+            throw new Error("Invalid user data");
+        }
     } catch (e) {
         console.log(e)
         res.status(500).json({ message: e });
