@@ -120,7 +120,6 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [4 /*yield*/, usersModel_1.default.create(__assign(__assign({}, user), { password: hashedPassword }))];
             case 4:
                 newUser = _b.sent();
-                console.log(newUser);
                 if (newUser) {
                     res.status(201).json({
                         _id: newUser._id,
