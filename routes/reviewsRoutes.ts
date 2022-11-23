@@ -13,17 +13,17 @@ import {
 import { protect } from "../middleware/authMiddleware";
 
 //* GET
-router.get("/", getAllReviews);
-router.get("/:id", getReviewById);
+router.get("/", protect, getAllReviews);
+router.get("/:id", protect, getReviewById);
 
 //* POST
-router.post("/", createReview);
+router.post("/", protect, createReview);
 
 //* PUT
-router.put("/:id", updateReview);
+router.put("/:id", protect, updateReview);
 
 //* DELETE
-router.delete("/:id", deleteReview);
+router.delete("/:id", protect, deleteReview);
 
 module.exports = router
 

@@ -9,14 +9,15 @@ import {
     updateBook,
     deleteBook,
 } from "../controllers/booksController";
+import {protect} from "../middleware/authMiddleware";
 
-router.get("/", getAllBooks)
-router.get("/:id", getBookById)
+router.get("/", protect, getAllBooks)
+router.get("/:id", protect, getBookById)
 
-router.post("/", createBook)
+router.post("/", protect, createBook)
 
-router.put("/:id", updateBook)
+router.put("/:id", protect, updateBook)
 
-router.delete("/:id", deleteBook)
+router.delete("/:id", protect, deleteBook)
 
 module.exports = router
