@@ -84,7 +84,7 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 }); };
 exports.loginUser = loginUser;
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, email, password, _b, displayName, userExists, salt, hashedPassword, newUser, e_1;
+    var _a, firstName, lastName, email, password, _b, displayName, userExists, salt, hashedPassword, newUser, error_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
@@ -131,9 +131,10 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 }
                 return [3 /*break*/, 6];
             case 5:
-                e_1 = _c.sent();
-                console.log(e_1);
-                res.status(500).json({ message: e_1 });
+                error_1 = _c.sent();
+                res.status(400).json({
+                    message: error_1
+                });
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
@@ -141,7 +142,7 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
 }); };
 exports.createUser = createUser;
 var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var users, e_2;
+    var users, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -152,7 +153,7 @@ var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 res.status(200).json(users);
                 return [3 /*break*/, 3];
             case 2:
-                e_2 = _a.sent();
+                e_1 = _a.sent();
                 res.status(500).json({ message: 'Error getting Users' });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -161,7 +162,7 @@ var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0,
 }); };
 exports.getAllUsers = getAllUsers;
 var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, e_3;
+    var user, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -172,7 +173,7 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 res.status(200).json(user);
                 return [3 /*break*/, 3];
             case 2:
-                e_3 = _a.sent();
+                e_2 = _a.sent();
                 res.status(500).json({ message: 'Error getting User' });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

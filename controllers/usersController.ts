@@ -69,9 +69,10 @@ export const createUser = async (req: Request, res: Response) => {
                 message: "Invalid user data"
             });
         }
-    } catch (e) {
-        console.log(e)
-        res.status(500).json({ message: e });
+    } catch (error) {
+        res.status(400).json({
+            message: error
+        });
     }
 }
 
