@@ -84,12 +84,12 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 }); };
 exports.loginUser = loginUser;
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, email, password, userExists, user, salt, hashedPassword, newUser, e_1;
+    var _a, firstName, lastName, email, displayName, password, userExists, user, salt, hashedPassword, newUser, e_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 5, , 6]);
-                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password;
+                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, displayName = _a.displayName, password = _a.password;
                 return [4 /*yield*/, usersModel_1.default.findOne({
                         email: email
                     })];
@@ -110,6 +110,7 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                         firstName: firstName,
                         lastName: lastName,
                         email: email,
+                        displayName: displayName,
                         password: hashedPassword,
                     })];
             case 4:

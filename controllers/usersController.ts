@@ -33,7 +33,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { firstName, lastName, email, password } = req.body;
+        const { firstName, lastName, email, displayName, password } = req.body;
 
         const userExists = await UserModel.findOne({
             email
@@ -53,6 +53,7 @@ export const createUser = async (req: Request, res: Response) => {
             firstName,
             lastName,
             email,
+            displayName
             password: hashedPassword,
         })
 
@@ -61,6 +62,7 @@ export const createUser = async (req: Request, res: Response) => {
             firstName: newUser.firstName,
             lastName: newUser.lastName,
             email: newUser.email,
+            displayName: newUser.displayName,
             token: generateToken(newUser._id)
         });
     } catch (e) {
