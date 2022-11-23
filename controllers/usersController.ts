@@ -33,7 +33,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { name, email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
         const userExists = await UserModel.findOne({
             email
@@ -50,19 +50,19 @@ export const createUser = async (req: Request, res: Response) => {
         const hashedPassword = await bcrypt.hash(user.password, salt)
 
         const newUser = await UserModel.create({
-            ...user,
-            password: hashedPassword
+            firstName,
+            lastName,
+            email,
+            password: hashedPassword,
         })
 
-        if(newUser){
-            res.status(201).json({
-                _id: newUser._id,
-                firstName: newUser.firstName,
-                lastName: newUser.lastName,
-                email: newUser.email,
-                token: generateToken(newUser._id)
-            });
-        }
+        res.status(201).json({
+            _id: newUser._id,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            token: generateToken(newUser._id)
+        });
     } catch (e) {
         res.status(500).json({ message: e });
     }
