@@ -53,7 +53,7 @@ export const createUser = async (req: Request, res: Response) => {
             firstName,
             lastName,
             email,
-            displayName
+            displayName,
             password: hashedPassword,
         })
 

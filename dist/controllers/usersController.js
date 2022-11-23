@@ -120,6 +120,7 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                     firstName: newUser.firstName,
                     lastName: newUser.lastName,
                     email: newUser.email,
+                    displayName: newUser.displayName,
                     token: generateToken(newUser._id)
                 });
                 return [3 /*break*/, 6];
